@@ -59,7 +59,8 @@ public class AssociationController : Controller
         _context.SaveChanges();
 
         // Redirect back to the route you were on
-        return Redirect($"/{path}/{pathId}");
+        // return Redirect($"/{path}/{pathId}");
+        return Redirect(HttpContext.Request.Headers.Referer);
     }
     
     //! Errors

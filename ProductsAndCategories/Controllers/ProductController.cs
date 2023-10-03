@@ -31,8 +31,9 @@ public class ProductController : Controller
     public ViewResult AllProducts()
     {
         // Get all Products alphabetically
-        ViewBag.AllProducts = _context.Products.OrderBy(p => p.Name).ToList();        
-        return View();
+        // ViewBag.AllProducts = _context.Products.OrderBy(p => p.Name).ToList(); 
+        List<Product> AllProducts =  _context.Products.OrderBy(p => p.Name).ToList();      
+        return View(AllProducts);
     }
 
     //! Create a new Product
@@ -55,10 +56,8 @@ public class ProductController : Controller
     {
         // Get One Product by ProductId -> Include Categories Association -> Then Include Associated Categories -> Order Alphabetically
         Product? OneProduct = _context.Products.Include(p => p.Categories).ThenInclude(c => c.Category).OrderBy(c => c.Name).FirstOrDefault(p => p.ProductId == id);
-        // Select only Name from OneProduct associated categories list
-        List<string> OneProductCategories = OneProduct.Categories.Select(a => a.Category.Name).ToList();
         // Get all Categories NOT associated with the OneProduct
-        ViewBag.AllCategories = _context.Categories.OrderBy(c => c.Name).Where(c => !OneProductCategories.Contains(c.Name));
+        ViewBag.AllCategories = _context.Categories.Include(c => c.Products).Where(c => c.Products.All(pa => pa.ProductId != id)).OrderBy(c => c.Name);
         
         return View(OneProduct);
     }

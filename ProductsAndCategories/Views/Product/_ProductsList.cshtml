@@ -1,0 +1,17 @@
+@model List<Product>
+<div class="col-6">
+		<div class="card shadow">
+			<div class="card-header text-center"><h2>All Products</h2></div>
+			<div class="card-body">
+				
+					@if(Model != null) 
+					{ 
+						foreach(Product p in Model) 
+						{
+							<p><a asp-action="ShowProduct" asp-controller="Product" asp-route-id="@p.ProductId">@p.Name</a></p>
+						} 
+					}
+				
+			</div>
+		</div>
+	</div>

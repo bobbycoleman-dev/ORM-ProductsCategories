@@ -50,11 +50,9 @@ public class CategoryController : Controller
     {
         // Get One Category by CategoryId -> Include Product Association -> Then Include Associated Products -> Order Alphabetically
         Category? OneCategory = _context.Categories.Include(c => c.Products).ThenInclude(p => p.Product).OrderBy(p => p.Name).FirstOrDefault(c => c.CategoryId == id);
-        // Select only Name from OneCategory associated products list
-        List<string> OneCategoryProducts = OneCategory.Products.Select(a => a.Product.Name).ToList();
-        // Get all Categories NOT associated with the OneCategory
-        ViewBag.AllProducts = _context.Products.OrderBy(p => p.Name).Where(p => !OneCategoryProducts.Contains(p.Name));
         
+        // Get all Categories NOT associated with the OneCategory
+        ViewBag.AllProducts = _context.Products.Include(c => c.Categories).Where(c => c.Categories.All(pa => pa.CategoryId != id)).OrderBy(c => c.Name);
         return View(OneCategory);
     }
 
