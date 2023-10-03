@@ -1,0 +1,19 @@
+﻿<div class="row">
+	@await Html.PartialAsync("_NewProductForm")
+	<div class="col-6">
+		<div class="card shadow">
+			<div class="card-header text-center"><h2>All Products</h2></div>
+			<div class="card-body">
+				
+					@if(ViewBag.AllProducts != null) 
+					{ 
+						foreach(Product p in ViewBag.AllProducts) 
+						{
+							<p><a asp-action="ShowProduct" asp-controller="Product" asp-route-id="@p.ProductId">@p.Name</a></p>
+						} 
+					}
+				
+			</div>
+		</div>
+	</div>
+</div>

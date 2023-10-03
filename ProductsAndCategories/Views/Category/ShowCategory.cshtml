@@ -1,0 +1,42 @@
+@model Category
+<div>
+    <h2 class="text-center mb-3">@Model.Name</h2>
+    <div class="row">
+        <div class="col-6">
+            <div class="card shadow">
+                <div class="card-header"><h3>Categories</h3></div>
+                <div class="card-body">
+                    @foreach(Association a in Model.Products)
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <a asp-action="ShowProduct" asp-controller="Product" asp-route-id=@a.ProductId>@a.Product.Name</a>
+                            <form asp-action="DeleteAssociation" asp-controller="Association" asp-route-id=@a.AssociationId asp-route-path="categories" asp-route-pathId=@a.CategoryId method="post">
+                                <button class="btn btn-sm btn-danger">Remove Association</button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card shadow">
+                <div class="card-header"><h3>Add Product</h3></div>
+                <div class="card-body">
+                    <form asp-action="CreateProductAssociation" asp-controller="Association" asp-route-id=@Model.CategoryId method="post">
+                        <div class="mb-3">
+                            <label for="addedProduct" class="form-label">Add Product</label>
+                            <select name="addedProduct" class="form-select">
+                                <option selected disabled>---Add a Product---</option>
+                                @foreach(Product p in ViewBag.AllProducts)
+                                {
+                                    <option value=@p.ProductId>@p.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="text-end"><button class="btn btn-primary">Add</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

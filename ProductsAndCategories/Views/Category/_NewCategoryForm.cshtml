@@ -1,0 +1,17 @@
+@model Category
+<div class="col-6">
+    <div class="card shadow">
+        <div class="card-header text-center"><h2>New Category</h2></div>
+        <div class="card-body">
+            <form asp-action="CreateCategory" asp-controller="Category" method="post">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control">
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="text-end"><button class="btn btn-primary">Create</button></div>
+            </form>
+        </div>
+    </div>
+
+</div>

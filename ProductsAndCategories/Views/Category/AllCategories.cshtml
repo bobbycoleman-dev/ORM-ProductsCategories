@@ -1,0 +1,19 @@
+<div class="row">
+	@await Html.PartialAsync("_NewCategoryForm")
+	<div class="col-6">
+		<div class="card shadow">
+			<div class="card-header text-center"><h2>All Categories</h2></div>
+			<div class="card-body">
+				
+					@if(ViewBag.AllCategories != null) 
+					{ 
+						foreach(Category c in ViewBag.AllCategories) 
+						{
+							<p><a asp-action="ShowCategory" asp-controller="Category" asp-route-id="@c.CategoryId">@c.Name</a></p>
+						} 
+					}
+				
+			</div>
+		</div>
+	</div>
+</div>
