@@ -32,7 +32,7 @@ public class ProductController : Controller
     {
         // Get all Products alphabetically
         // ViewBag.AllProducts = _context.Products.OrderBy(p => p.Name).ToList(); 
-        List<Product> AllProducts =  _context.Products.OrderBy(p => p.Name).ToList();      
+        List<Product> AllProducts = _context.Products.OrderBy(p => p.Name).ToList();
         return View(AllProducts);
     }
 
@@ -40,9 +40,9 @@ public class ProductController : Controller
     [HttpPost("products/create")]
     public IActionResult CreateProduct(Product newProduct)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         _context.Add(newProduct);
@@ -58,10 +58,10 @@ public class ProductController : Controller
         Product? OneProduct = _context.Products.Include(p => p.Categories).ThenInclude(c => c.Category).OrderBy(c => c.Name).FirstOrDefault(p => p.ProductId == id);
         // Get all Categories NOT associated with the OneProduct
         ViewBag.AllCategories = _context.Categories.Include(c => c.Products).Where(c => c.Products.All(pa => pa.ProductId != id)).OrderBy(c => c.Name);
-        
+
         return View(OneProduct);
     }
-    
+
     //! Errors
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
